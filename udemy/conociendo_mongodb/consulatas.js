@@ -139,3 +139,104 @@ db.books.deleteOne({
 //respuesta de mongodb
 // me muestra todas las collections formateadas a json visualmente
 db.books.find().pretty()
+
+
+db.mechs.insertMany([
+    {type: "Zoid", name:"Geno Trooper", qty: 77, size:{h:23, w:123, size_t: "L"}, status: "A+"},
+    {type: "Zoid", name:"Liger Zero", qty: 34, size:{h:8, w:85, size_t: "M"}, status: "A"},
+    {type: "Gundam", name:"ASW-G-08 Barbatos Lupus Rex", qty: 59, size:{h:19, w:32, size_t: "L"}, status: "S"},
+    {type: "Shin Getter", name:"Getter F3", qty: 87, size:{h:20, w:99, size_t: "XL"}, status: "S+"},
+    {type: "Gundam", name:"FP/A-77 Pharact", qty: 77, size:{h:19, w:57, size_t: "M"}, status: "S"},
+])
+
+db.mechs.insertMany([
+    {type: "Zoid", name:"Blade Liger", qty: 31, size:{h:12, w:124, size_t: "L"}, status: "A"},
+    {type: "Zoid", name:"Koni Wolf", qty: 22, size:{h:9, w:90, size_t: "M"}, status: "B+"},
+])
+
+// Operadores logicos y comparacion
+
+// muestra todas las collections
+db.mechs.find().pretty()
+
+// busco de forma mas especifica
+db.mechs.find(
+    {
+        status:"A+"
+    }
+).pretty()
+
+db.mechs.find(
+    {
+        $and: [
+            {
+                qty: {$gt:30} // mayor que
+            },
+            {
+                qty:  {$lt:88} // menor que
+            }
+        ]
+    }
+).pretty()
+
+db.mechs.find(
+    {
+        status: "S",
+        $and: [
+            {
+                qty: {$gt:30}
+            },
+            {
+                qty:  {$lt:88}
+            },
+        ]
+    }
+).pretty()
+
+
+db.mechs.find(
+    {
+        status: "S",
+        qty: {$gt:30},
+        qty:  {$lt:88},
+    }
+).pretty()
+
+// $or
+
+db.mechs.find(
+    {
+        status: "S",
+        $or: [
+            {
+                qty: {$gt:30}
+            },
+            {
+                qty:  {$lt:88}
+            },
+        ]
+    }
+).pretty()
+
+db.mechs.find(
+    {
+        $or: [
+            {
+                qty: {$gt:30}
+            },
+            {
+                qty:  {$lt:88}
+            },
+            {status: "S",},
+        ]
+    }
+).pretty()
+
+
+// $in
+
+db.mechs.find(
+    {
+        status:{$in: ["S", "A", "B+"]}
+    }
+).pretty()
